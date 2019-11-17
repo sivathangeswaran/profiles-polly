@@ -1,5 +1,4 @@
 import { Component, Prop, State, h } from '@stencil/core';
-import { sayHello } from '../../helpers/utils';
 
 @Component({
   tag: 'app-profile',
@@ -40,7 +39,7 @@ export class AppProfile {
       "Heather Abott is in Bangalore",
       "Vikash Kumar is out of office"];
       this.dataLoaded = true;
-
+console.log(response);
     });
   }
 

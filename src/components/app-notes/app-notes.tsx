@@ -1,4 +1,4 @@
-import { Component, h, State,Event, EventEmitter, Prop} from '@stencil/core';
+import { Component, h, State,Prop} from '@stencil/core';
 
 @Component({
   tag: 'app-notes',

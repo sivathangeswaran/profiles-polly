@@ -18,7 +18,7 @@ export class TabHome {
   }
 
   handleChange(event) {
-    console.log("handleEnter called");
+    console.log("handleEnter called" + event);
       //this.login();
   }
   render() {
