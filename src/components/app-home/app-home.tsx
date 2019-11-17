@@ -1,5 +1,4 @@
-import { Component, h, State,Event, EventEmitter, Prop} from '@stencil/core';
-import { TabHome } from '../tab-home/tab-home';
+import { Component, h, State, Prop} from '@stencil/core';
 
 @Component({
   tag: 'app-home',
