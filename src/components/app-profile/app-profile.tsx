@@ -1,4 +1,5 @@
 import { Component, Prop, State, h } from '@stencil/core';
+import { sayHello } from '../../helpers/utils';
 
 @Component({
   tag: 'app-profile',
@@ -33,9 +34,13 @@ export class AppProfile {
       "Siva T is attending the MongoDB Training",
       "Heather Abott is in Bangalore",
       "Vikash Kumar is out of office",
-      "Siva T is attending the MongoDB Training"];
+      "Siva T is attending the MongoDB Training","Heather Abott is in Bangalore",
+      "Vikash Kumar is out of office",
+      "Siva T is attending the MongoDB Training",
+      "Heather Abott is in Bangalore",
+      "Vikash Kumar is out of office"];
       this.dataLoaded = true;
-      console.log(response);
+
     });
   }
 
@@ -51,7 +56,7 @@ export class AppProfile {
         <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" />
+      <ion-back-button defaultHref="/" />
     </ion-buttons>
     <ion-title>Notifications</ion-title>
   </ion-toolbar>

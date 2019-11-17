@@ -1,4 +1,5 @@
-import { Component, h, State, Prop} from '@stencil/core';
+import { Component, h, State,Event, EventEmitter, Prop} from '@stencil/core';
+import { TabHome } from '../tab-home/tab-home';
 
 @Component({
   tag: 'app-home',
@@ -18,20 +19,14 @@ export class AppHome {
   handleChange(event) {
     this.searchQuery = event.target.value;
     this.getUsersData(this.searchQuery);
-    console.log("handleEnter called");
-    console.log("handleEnter called "+ this.searchQuery);
-    //this.login();
   }
   showSelectedUserCard(selecteduser) {
     console.log("showSelectedUserCard called");
-    var index = 0;
-    this.usersData.forEach(user => {
-      if(user==selecteduser){
-        this.usersData[index] = this.usersData[0];
-         this.usersData[0] = selecteduser;
-      }
-      index++;
-    });
+    this.getUsersData(selecteduser.first_name);
+  }
+
+  prepareNotes(selecteduser) {
+    console.log("prepareNotes called");
   }
 
   followSelectedUser(selecteduser) {
@@ -75,14 +70,16 @@ console.log("printing serachtext before api call");
     console.log("current user in getFollowingStatus"+ this.currentUser);
     this.usersData.forEach(user => {
       if(user.picture){
-        this.usersData[index].imgUrl = "/assets/icon/"+user.first_name+".jpg";
+        this.usersData[index].imgUrl = "assets/icon/"+user.first_name.toLowerCase()+".jpg";
       }else{
-        this.usersData[index].imgUrl = "/assets/icon/avatar.jpeg";
+        this.usersData[index].imgUrl = "assets/icon/avatar.jpeg";
       }
       
       followings.forEach(following => {
+        this.usersData[index].followText = "Follow";
         if(user.emp_id==following.emp_id){
-          this.usersData[index].isFollowing = true;
+          this.usersData[index].followText = "Following";
+
         }
       });
       index++;
@@ -107,7 +104,9 @@ console.log("printing serachtext before api call");
       return (
 
         <div class="full-height">
-        
+                <ion-item>
+                <ion-label></ion-label>                
+                </ion-item>
               <ion-toolbar color="primary">
               
                 <ion-buttons slot="primary">
@@ -123,9 +122,12 @@ console.log("printing serachtext before api call");
                   </ion-button>
                 </ion-buttons>
                 <ion-title>Nasdaq Polly</ion-title>
+                <ion-button on-click={() => { location.href='/' }}>
+                    <ion-icon slot="icon-only" name="home" size="small" />
+                  </ion-button>
               </ion-toolbar>  
               
-              <ion-searchbar on-change={(event) => { this.handleChange(event);}}  value={this.searchQuery}></ion-searchbar>
+              <ion-searchbar on-change={(event) => { this.handleChange(event);}} on-input={(event) => { this.handleChange(event);}} value={this.searchQuery}></ion-searchbar>
               <ion-list> 
         
                 {this.usersData.map(user =>
@@ -134,8 +136,7 @@ console.log("printing serachtext before api call");
                   <ion-item>
                   
                 <ion-avatar slot="start">
-                  <img src={user.imgUrl} hidden={!user.picture}/>
-                  <img src="/assets/icon/avatar.jpeg" hidden={user.picture}/>
+                  <img src={user.imgUrl} />
                 </ion-avatar>
                 
                 <ion-label on-click={() => { this.showSelectedUserCard(user); }}>{user.first_name} {user.last_name}</ion-label>
@@ -154,12 +155,17 @@ console.log("printing serachtext before api call");
             </ion-card-content>
                 <ion-item>
                   <ion-icon name="pin" slot="start" />
-                <ion-label>Today at {user.country}</ion-label>                
+                <ion-label>Checkedin at {user.city}</ion-label>                
                 </ion-item>
                 <ion-item>
-                  <ion-button color="secondary" size="small" on-click={() => { this.followSelectedUser(user); }} hidden={user.isFollowing}>Following</ion-button>
-                  <ion-button color="secondary" size="small" on-click={() => { this.followSelectedUser(user); }} hidden={!user.isFollowing}>Follow</ion-button>
+                  <ion-icon name="alarm" slot="start" />
+                <ion-label>{user.last_checkin}</ion-label>                
                 </ion-item>
+                <ion-item>
+                <ion-button color="secondary" size="small" on-click={() => { this.followSelectedUser(user); }}>{user.followText}</ion-button>
+                <ion-button color="secondary" size="small" on-click={() => { location.href='/notes/'+user.emp_id.$numberInt }}>Notes</ion-button>
+                </ion-item>
+
 
               </ion-card>
               
