@@ -1,0 +1,8 @@
+{
+  "appId": "com.nasdaq.nasdaqpolly",
+  "appName": "NasdaqPolly",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
