@@ -64,7 +64,7 @@ export class AppProfile {
     <ion-item>
     
   <ion-avatar slot="start">
-    <img src="assets/icon/Chetna.jpg" />
+    <img src="assets/icon/avatar.jpeg" />
   </ion-avatar>
   <ion-label>{notification}</ion-label>
   

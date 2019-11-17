@@ -56,7 +56,7 @@ export class AppHome {
   }
 
   getUsersData(searchText) {
-
+console.log("printing serachtext before api call");
   fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/nasdaq-polly-lqprf/service/profiles-service/incoming_webhook/get-profiles?user=10046&arg='+searchText)
   .then((response: Response) => response.json())
   .then(response => {
@@ -74,6 +74,12 @@ export class AppHome {
     var followings = this.currentUser.followers;
     console.log("current user in getFollowingStatus"+ this.currentUser);
     this.usersData.forEach(user => {
+      if(user.picture){
+        this.usersData[index].imgUrl = "/assets/icon/"+user.first_name+".jpg";
+      }else{
+        this.usersData[index].imgUrl = "/assets/icon/avatar.jpeg";
+      }
+      
       followings.forEach(following => {
         if(user.emp_id==following.emp_id){
           this.usersData[index].isFollowing = true;
@@ -86,11 +92,13 @@ export class AppHome {
   }
 
   componentWillLoad() {
+    if(!this.searchText){
+      this.searchText= "";
+    }
     this.searchQuery = this.searchText;
 
+    console.log("printing serachtext before api call componentWillLoad"+this.searchText);
     this.getUsersData(this.searchQuery);
-    
-    //this.showData = false;
   }
 
 
@@ -126,8 +134,10 @@ export class AppHome {
                   <ion-item>
                   
                 <ion-avatar slot="start">
-                  <img src="/assets/icon/Chetna.jpg" />
+                  <img src={user.imgUrl} hidden={!user.picture}/>
+                  <img src="/assets/icon/avatar.jpeg" hidden={user.picture}/>
                 </ion-avatar>
+                
                 <ion-label on-click={() => { this.showSelectedUserCard(user); }}>{user.first_name} {user.last_name}</ion-label>
                 
               </ion-item>
